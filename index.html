@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KASYNO VIP: MIŁOSZ — Wszystkiego Najlepszego!</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=JetBrains+Mono:wght@600;800&family=Montserrat:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #08080c;
+            background-image:
+                radial-gradient(circle at 50% 0%, rgba(153, 27, 27, 0.45) 0%, rgba(6, 78, 59, 0.25) 45%, rgba(8, 8, 12, 0.98) 85%),
+                repeating-linear-gradient(45deg, rgba(234, 179, 8, 0.03) 0px, rgba(234, 179, 8, 0.03) 2px, transparent 2px, transparent 14px);
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .font-royal { font-family: 'Cinzel', serif; }
+        .font-serif-vip { font-family: 'Playfair Display', serif; }
+        .font-mono-num { font-family: 'JetBrains Mono', monospace; }
+
+        /* Złoty neonowy tytuł */
+        .gold-neon-text {
+            background: linear-gradient(180deg, #fef9c3 0%, #facc15 45%, #ca8a04 85%, #fef08a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 28px rgba(250, 204, 21, 0.35);
+        }
+
+        /* Przewijany pasek wiadomości kasynowych */
+        .ticker-wrap {
+            overflow: hidden;
+            white-space: nowrap;
+            background: linear-gradient(90deg, #18181b 0%, #450a0a 50%, #18181b 100%);
+            border-bottom: 1px solid rgba(250, 204, 21, 0.35);
+        }
+
+        .ticker-track {
+            display: inline-block;
+            padding-left: 100%;
+            animation: tickerMove 26s linear infinite;
+        }
+
+        @keyframes tickerMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Latające w tle symbole kart */
+        .floating-suit {
+            position: fixed;
+            bottom: -40px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.14;
+            animation: floatSuit linear infinite;
+        }
+
+        @keyframes floatSuit {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.16; }
+            85% { opacity: 0.14; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Żetony VIP */
+        .poker-chip {
+            border-radius: 9999px;
+            border: 4px dashed rgba(255, 255, 255, 0.85);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.75), inset 0 0 0 4px rgba(0, 0, 0, 0.35);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .poker-chip:hover {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.85), 0 0 20px rgba(250, 204, 21, 0.45);
+        }
+        .poker-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* Okno pojedynczego bębna automatu */
+        .reel-window {
+            height: 120px;
+            background: linear-gradient(180deg, #d4d4d8 0%, #ffffff 22%, #ffffff 78%, #d4d4d8 100%);
+            box-shadow: inset 0 10px 16px rgba(0, 0, 0, 0.45), inset 0 -10px 16px rgba(0, 0, 0, 0.45);
+            border: 3px solid #eab308;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+            .reel-window {
+                height: 140px;
+            }
+        }
+
+        .reel-symbol {
+            font-size: 4rem;
+            line-height: 1;
+            user-select: none;
+            transition: transform 0.12s ease, filter 0.12s ease;
+        }
+
+        @media (min-width: 640px) {
+            .reel-symbol {
+                font-size: 4.75rem;
+            }
+        }
+
+        .reel-spinning .reel-symbol {
+            filter: blur(1.5px);
+            transform: scale(0.92);
+        }
+
+        /* Przycisk ZAKRĘĆ */
+        .btn-spin-gold {
+            background: linear-gradient(180deg, #fef08a 0%, #facc15 40%, #ca8a04 100%);
+            border: 2px solid #fef9c3;
+            color: #18181b;
+            box-shadow: 0 6px 0 #713f12, 0 12px 24px rgba(0, 0, 0, 0.8);
+            transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.15s ease;
+        }
+        .btn-spin-gold:hover:not(:disabled) {
+            filter: brightness(1.07);
+            box-shadow: 0 6px 0 #713f12, 0 0 28px rgba(250, 204, 21, 0.7);
+        }
+        .btn-spin-gold:active:not(:disabled) {
+            transform: translateY(5px);
+            box-shadow: 0 1px 0 #713f12, 0 4px 10px rgba(0, 0, 0, 0.85);
+        }
+        .btn-spin-gold:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        /* Dźwignia automatu */
+        .lever-stick {
+            transform-origin: bottom center;
+            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .lever-pulled {
+            transform: scaleY(0.45) translateY(38px);
+        }
+
+        /* Migające żarówki maszyny */
+        .bulb {
+            width: 10px;
+            height: 10px;
+            border-radius: 9999px;
+            background: #fef08a;
+            box-shadow: 0 0 10px #facc15;
+            animation: bulbPulse 1.2s infinite alternate;
+        }
+        .bulb:nth-child(even) {
+            animation-delay: 0.6s;
+        }
+        @keyframes bulbPulse {
+            0% { opacity: 0.35; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1.15); }
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-between selection:bg-yellow-400 selection:text-black">
+
+    <!-- Canvas do konfetti po trafieniu 3 bananów -->
+    <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+    <!-- Dekoracyjne symbole kart w tle -->
+    <div id="suitsContainer" aria-hidden="true"></div>
+
+    <!-- Przewijany pasek informacji kasynowych -->
+    <div class="ticker-wrap py-1.5 text-[11px] sm:text-xs font-bold tracking-widest text-yellow-300 uppercase relative z-20">
+        <div class="ticker-track">
+            🎰 WITAMY W KASYNO VIP: MIŁOSZ • WSZYSTKIEGO NAJLEPSZEGO! • ROZBIJ BANK SZCZĘŚCIA I ZDROWIA • TRAF 3 BANANY (🍌🍌🍌) ABY ODBLOKOWAĆ EPICKĄ NIESPODZIANKĘ VIP! 🥂 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            🎰 WITAMY W KASYNO VIP: MIŁOSZ • WSZYSTKIEGO NAJLEPSZEGO! • ROZBIJ BANK SZCZĘŚCIA I ZDROWIA • TRAF 3 BANANY (🍌🍌🍌) ABY ODBLOKOWAĆ EPICKĄ NIESPODZIANKĘ VIP! 🥂
+        </div>
+    </div>
+
+    <!-- Górny pasek nawigacji VIP -->
+    <header class="w-full bg-black/85 border-b border-yellow-500/30 backdrop-blur-md sticky top-0 z-30">
+        <div class="max-w-5xl mx-auto px-3 sm:px-5 py-3 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+                <span class="text-2xl">👑</span>
+                <div>
+                    <div class="font-royal font-black text-yellow-400 text-xs sm:text-base tracking-widest leading-none">
+                        KASYNO VIP: MIŁOSZ
+                    </div>
+                    <div class="text-[10px] text-emerald-400 font-semibold tracking-wider uppercase mt-0.5">
+                        Stół Królewski • Edycja Specjalna
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+                <!-- Przycisk włączania/wyłączania muzyki kasynowej -->
+                <button id="musicBtn" onclick="toggleMusic()" class="px-3.5 py-1.5 rounded-full bg-emerald-950/90 border border-emerald-400/50 hover:border-emerald-300 text-xs sm:text-sm font-bold text-emerald-200 flex items-center gap-1.5 cursor-pointer transition shadow-md">
+                    <span id="musicIcon">🔊</span>
+                    <span id="musicText">Muzyka: WŁ</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Główna zawartość -->
+    <main class="max-w-4xl mx-auto w-full px-4 py-6 sm:py-9 flex flex-col items-center relative z-10">
+
+        <!-- Nagłówek z życzeniami -->
+        <section class="text-center max-w-2xl mb-7">
+            <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-red-950/90 border border-yellow-500/50 text-yellow-300 text-xs font-bold tracking-widest uppercase mb-3">
+                <span>♠️</span> <span>♥️</span> <span>VIP LOUNGE</span> <span>♦️</span> <span>♣️</span>
+            </div>
+
+            <h1 class="font-royal text-3xl sm:text-5xl md:text-6xl font-black tracking-wide gold-neon-text mb-3">
+                MIŁOSZ VIP CASINO
+            </h1>
+
+            <div class="bg-gradient-to-br from-emerald-950/90 via-zinc-900/95 to-red-950/80 border-2 border-yellow-500/70 rounded-2xl p-5 sm:p-6 shadow-2xl mb-6">
+                <p class="font-serif-vip italic text-lg sm:text-xl text-yellow-300 mb-2">
+                    „Wszystkiego najlepszego Miłosz! Rozbij bank szczęścia, zdrowia i grubych wygranych!”
+                </p>
+                <p class="text-xs sm:text-sm text-amber-100/90 leading-relaxed">
+                    Dzisiaj wszystkie stoły w kasynie należą do Ciebie. Kliknij żetony poniżej, aby odebrać specjalne życzenia, a potem zakręć Jednorękim Bandytą VIP i upoluj 3 banany! 🥂🎰
+                </p>
+            </div>
+
+            <!-- 4 Interaktywne Żetony z Życzeniami -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-xl mx-auto mb-4">
+                <button onclick="selectChip('Zdrowie', '❤️ Żelaznego zdrowia, nieskończonej energii i kondycji jak u mistrza świata!')" class="poker-chip bg-gradient-to-b from-red-600 to-red-900 p-3 aspect-square flex flex-col items-center justify-center cursor-pointer">
+                    <span class="text-2xl mb-1">❤️</span>
+                    <span class="font-royal text-xs font-bold text-white uppercase tracking-wider">Zdrowie</span>
+                    <span class="text-[10px] text-yellow-300 font-mono-num">100% VIP</span>
+                </button>
+
+                <button onclick="selectChip('Kasa', '💰 Grubego portfela, trafionych inwestycji i samych najwyższych stawek w życiu!')" class="poker-chip bg-gradient-to-b from-emerald-600 to-emerald-950 p-3 aspect-square flex flex-col items-center justify-center cursor-pointer">
+                    <span class="text-2xl mb-1">💰</span>
+                    <span class="font-royal text-xs font-bold text-white uppercase tracking-wider">Kasa</span>
+                    <span class="text-[10px] text-yellow-300 font-mono-num">MAX BET</span>
+                </button>
+
+                <button onclick="selectChip('Fart', '🍀 Niesamowitego farta na każdym kroku — niech zawsze wypada Ci szczęśliwa siódemka!')" class="poker-chip bg-gradient-to-b from-amber-500 to-yellow-700 p-3 aspect-square flex flex-col items-center justify-center cursor-pointer">
+                    <span class="text-2xl mb-1">🍀</span>
+                    <span class="font-royal text-xs font-bold text-zinc-950 uppercase tracking-wider">Fart</span>
+                    <span class="text-[10px] text-white font-mono-num">LUCKY 777</span>
+                </button>
+
+                <button onclick="selectChip('Przygoda', '🚀 Epickich podróży, niezapomnianych przygód i spełnienia każdego marzenia!')" class="poker-chip bg-gradient-to-b from-zinc-700 to-zinc-950 p-3 aspect-square flex flex-col items-center justify-center cursor-pointer">
+                    <span class="text-2xl mb-1">🚀</span>
+                    <span class="font-royal text-xs font-bold text-yellow-300 uppercase tracking-wider">Przygoda</span>
+                    <span class="text-[10px] text-zinc-300 font-mono-num">ALL IN</span>
+                </button>
+            </div>
+
+            <!-- Baner wyświetlający życzenie po kliknięciu żetonu -->
+            <div id="chipWishBanner" class="min-h-[48px] flex items-center justify-center bg-black/75 border border-yellow-500/40 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-yellow-200 font-medium shadow-inner transition-all">
+                👆 Kliknij dowolny żeton VIP powyżej, aby odsłonić życzenia dla Miłosza!
+            </div>
+        </section>
+
+        <!-- JEDNORĘKI BANDYTA VIP -->
+        <section class="w-full max-w-xl relative flex items-center justify-center">
+            <!-- Korpus maszyny -->
+            <div id="machineFrame" class="w-full bg-gradient-to-b from-red-900 via-red-950 to-zinc-950 border-4 border-yellow-500 rounded-3xl p-4 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.9)] relative">
+
+                <!-- Górny rząd żarówek -->
+                <div class="flex justify-around mb-3 px-2">
+                    <span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span>
+                    <span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span>
+                </div>
+
+                <!-- Tabliczka maszyny -->
+                <div class="bg-black/85 border-2 border-yellow-400/80 rounded-2xl py-2.5 px-4 text-center mb-4 shadow-lg">
+                    <h2 class="font-royal text-lg sm:text-2xl font-black tracking-widest gold-neon-text">
+                        JEDNORĘKI BANDYTA VIP
+                    </h2>
+                    <div class="text-[11px] sm:text-xs text-yellow-200/90 font-semibold mt-0.5">
+                        NAGRODA GŁÓWNA: <span class="tracking-widest">🍌 🍌 🍌</span> = WIELKA NIESPODZIANKA VIP!
+                    </div>
+                </div>
+
+                <!-- Okno z 3 bębnami -->
+                <div class="bg-zinc-950 p-3 sm:p-4 rounded-2xl border-2 border-yellow-600/80 shadow-inner mb-4 relative">
+                    <!-- Czerwona linia wygranej pośrodku -->
+                    <div class="absolute left-1 right-1 top-1/2 -translate-y-1/2 h-1 bg-red-500/50 pointer-events-none z-10 rounded-full"></div>
+
+                    <div class="grid grid-cols-3 gap-2.5 sm:gap-4">
+                        <div id="reelBox0" class="reel-window">
+                            <span id="reelSym0" class="reel-symbol">🍌</span>
+                        </div>
+                        <div id="reelBox1" class="reel-window">
+                            <span id="reelSym1" class="reel-symbol">7️⃣</span>
+                        </div>
+                        <div id="reelBox2" class="reel-window">
+                            <span id="reelSym2" class="reel-symbol">🍌</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Liczniki spinów, wygranych i status -->
+                <div class="grid grid-cols-3 gap-2 sm:gap-3 mb-5">
+                    <div class="bg-black/85 border border-yellow-500/35 rounded-xl p-2 text-center">
+                        <div class="text-[10px] text-zinc-400 uppercase tracking-wider">Spiny</div>
+                        <div id="spinCounter" class="font-mono-num text-lg sm:text-2xl font-extrabold text-yellow-400">0</div>
+                    </div>
+                    <div class="bg-black/85 border border-yellow-500/35 rounded-xl p-2 text-center">
+                        <div class="text-[10px] text-zinc-400 uppercase tracking-wider">Wygrane 🍌🍌🍌</div>
+                        <div id="winCounter" class="font-mono-num text-lg sm:text-2xl font-extrabold text-emerald-400">0</div>
+                    </div>
+                    <div class="bg-black/85 border border-yellow-500/35 rounded-xl p-2 text-center flex flex-col justify-center">
+                        <div class="text-[10px] text-zinc-400 uppercase tracking-wider">Komunikat</div>
+                        <div id="slotStatus" class="text-xs sm:text-sm font-bold text-amber-200 truncate">Gotowy!</div>
+                    </div>
+                </div>
+
+                <!-- Przycisk ZAKRĘĆ -->
+                <button id="spinButton" onclick="startSpin()" class="btn-spin-gold w-full py-4 px-6 rounded-2xl font-royal text-xl sm:text-2xl font-black tracking-widest uppercase cursor-pointer flex items-center justify-center gap-3">
+                    <span>🎰</span>
+                    <span>ZAKRĘĆ (SPIN)</span>
+                </button>
+
+                <!-- Dolny rząd żarówek -->
+                <div class="flex justify-around mt-4 px-2">
+                    <span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span>
+                    <span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span>
+                </div>
+            </div>
+
+            <!-- Interaktywna dźwignia po prawej stronie (widoczna na tabletach i komputerach) -->
+            <div onclick="startSpin()" title="Pociągnij za wajchę!" class="hidden sm:flex flex-col items-center ml-3 cursor-pointer select-none group">
+                <div class="w-4 h-12 bg-gradient-to-r from-zinc-600 to-zinc-800 rounded-t-lg border border-yellow-500/50"></div>
+                <div class="relative w-6 h-36 flex flex-col items-center justify-end">
+                    <div id="leverArm" class="lever-stick w-3 h-32 bg-gradient-to-r from-zinc-300 via-white to-zinc-400 rounded-full relative flex justify-center">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-red-500 via-red-600 to-red-900 border-2 border-yellow-300 shadow-lg -top-5 absolute group-hover:scale-110 transition-transform"></div>
+                    </div>
+                </div>
+                <div class="w-7 h-10 bg-gradient-to-b from-yellow-600 to-yellow-900 rounded-b-xl border-2 border-yellow-400 shadow-md"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Stopka -->
+    <footer class="text-center py-4 text-xs text-zinc-400 border-t border-yellow-500/20 bg-black/70 relative z-10">
+        Stworzone specjalnie dla <span class="text-yellow-400 font-bold">Miłosza</span> • Kasyno VIP 100% Szczęścia 🥂
+    </footer>
+
+    <!-- MODAL JACKPOT Z NIESPODZIANKĄ -->
+    <div id="jackpotModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+        <div class="bg-gradient-to-b from-red-950 via-zinc-900 to-black border-4 border-yellow-400 rounded-3xl max-w-2xl w-full p-5 sm:p-7 shadow-[0_0_60px_rgba(250,204,21,0.5)] relative text-center">
+
+            <button onclick="closeJackpotModal()" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-zinc-800 hover:bg-red-700 text-white font-bold flex items-center justify-center border border-yellow-500/40 cursor-pointer transition" title="Zamknij">
+                ✕
+            </button>
+
+            <div class="text-3xl sm:text-4xl mb-1 tracking-widest">🍌 🍌 🍌</div>
+            <h3 class="font-royal text-2xl sm:text-4xl font-black gold-neon-text mb-1">
+                JACKPOT! 3 BANANY DLA MIŁOSZA!
+            </h3>
+            <p class="text-xs sm:text-sm text-amber-200 mb-4">
+                Rozbiłeś bank! Oto Twoja ekskluzywna niespodzianka urodzinowa VIP:
+            </p>
+
+            <!-- Kontener niespodzianki -->
+            <div class="w-full bg-black rounded-2xl border-2 border-yellow-500/70 overflow-hidden shadow-2xl mb-4 aspect-video flex items-center justify-center">
+                <video id="rewardVideo" src="gemini_generated_video_aeebb287.mp4" controls playsinline class="w-full h-full object-contain"></video>
+            </div>
+
+            <button onclick="closeJackpotModal()" class="px-6 py-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 border border-yellow-500/50 text-yellow-300 font-bold text-xs sm:text-sm cursor-pointer transition">
+                Wróć do stołu VIP 🎰
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. ZMIENNE GLOBALNE I KONFIGURACJA
+        // ==========================================
+        const SYMBOLS = ['🍌', '🍒', '💎', '7️⃣', '🔔', '🍀'];
+        const NON_BANANAS = ['🍒', '💎', '7️⃣', '🔔', '🍀'];
+
+        let isSpinning = false;
+        let spinsCount = 0;
+        let winsCount = 0;
+
+        // Stan Audio
+        let audioCtx = null;
+        let musicUserWanted = true;    // Czy użytkownik chce muzykę (przycisk WŁ/WYŁ)
+        let isMusicRunning = false;    // Czy pętla muzyczna aktualnie gra
+        let musicMutedForWin = false;  // Czy muzyka została wyłączona przez wygraną 3 bananów
+        let musicTimer = null;
+        let beatStep = 0;
+
+        // ==========================================
+        // 2. LATAJĄCE SYMBOLE KART W TLE
+        // ==========================================
+        (function createFloatingSuits() {
+            const container = document.getElementById('suitsContainer');
+            const suits = ['♠️', '♥️', '♦️', '♣️', '🍌', '✨'];
+            for (let i = 0; i < 16; i++) {
+                const el = document.createElement('div');
+                el.className = 'floating-suit';
+                el.textContent = suits[i % suits.length];
+                el.style.left = (Math.random() * 94) + '%';
+                el.style.fontSize = (18 + Math.random() * 18) + 'px';
+                el.style.animationDuration = (13 + Math.random() * 12) + 's';
+                el.style.animationDelay = (-Math.random() * 18) + 's';
+                container.appendChild(el);
+            }
+        })();
+
+        // ==========================================
+        // 3. SILNIK AUDIO (WEB AUDIO API - ZERO ZEWNĘTRZNYCH LINKÓW)
+        // ==========================================
+        function ensureAudioContext() {
+            if (!audioCtx) {
+                const Ctx = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new Ctx();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        // Uruchomienie muzyki przy pierwszym kliknięciu gdziekolwiek na stronie
+        document.addEventListener('pointerdown', function onFirstTap() {
+            if (musicUserWanted && !isMusicRunning && !musicMutedForWin) {
+                startCasinoMusic();
+            }
+        }, { once: true });
+
+        // Generator smooth jazz / lounge casino loop
+        function playLoungeStep(step) {
+            if (!isMusicRunning || !musicUserWanted || musicMutedForWin) return;
+            const ctx = ensureAudioContext();
+            const now = ctx.currentTime;
+
+            // Akordy kasynowe lounge: Dm9 -> G13 -> Cmaj9 -> A7
+            const chords = [
+                [146.83, 174.61, 220.00, 261.63, 329.63],
+                [196.00, 246.94, 293.66, 349.23, 440.00],
+                [130.81, 164.81, 196.00, 246.94, 293.66],
+                [110.00, 138.59, 196.00, 233.08, 311.13]
+            ];
+            const bassNotes = [73.42, 98.00, 65.41, 55.00];
+
+            const bar = Math.floor(step / 4) % 4;
+            const beat = step % 4;
+
+            // Miękkie pianino elektryczne na początek taktu
+            if (beat === 0) {
+                chords[bar].forEach(freq => {
+                    const osc = ctx.createOscillator();
+                    const filter = ctx.createBiquadFilter();
+                    const gain = ctx.createGain();
+
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now);
+
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(900, now);
+
+                    gain.gain.setValueAtTime(0.0001, now);
+                    gain.gain.linearRampToValueAtTime(0.022, now + 0.14);
+                    gain.gain.exponentialRampToValueAtTime(0.0008, now + 2.0);
+
+                    osc.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(now);
+                    osc.stop(now + 2.05);
+                });
+            }
+
+            // Walking bass na bitach 0 i 2
+            if (beat === 0 || beat === 2) {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                const freq = beat === 0 ? bassNotes[bar] : bassNotes[bar] * 1.498;
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now);
+
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.linearRampToValueAtTime(0.075, now + 0.04);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.48);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.5);
+            }
+
+            // Delikatny hi-hat / miotełka jazzowa
+            const len = Math.floor(ctx.sampleRate * 0.05);
+            const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+            const data = buf.getChannelData(0);
+            for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+
+            const noise = ctx.createBufferSource();
+            noise.buffer = buf;
+
+            const hp = ctx.createBiquadFilter();
+            hp.type = 'highpass';
+            hp.frequency.setValueAtTime(5000, now);
+
+            const nGain = ctx.createGain();
+            nGain.gain.setValueAtTime(beat % 2 === 1 ? 0.015 : 0.007, now);
+            nGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+
+            noise.connect(hp);
+            hp.connect(nGain);
+            nGain.connect(ctx.destination);
+            noise.start(now);
+        }
+
+        function startCasinoMusic() {
+            if (!musicUserWanted || musicMutedForWin) return;
+            ensureAudioContext();
+            if (isMusicRunning) return;
+
+            isMusicRunning = true;
+            updateMusicBtn();
+
+            playLoungeStep(beatStep++);
+            musicTimer = setInterval(() => {
+                if (!isMusicRunning || !musicUserWanted || musicMutedForWin) {
+                    stopCasinoMusic();
+                    return;
+                }
+                playLoungeStep(beatStep++);
+            }, 520);
+        }
+
+        function stopCasinoMusic() {
+            isMusicRunning = false;
+            if (musicTimer) {
+                clearInterval(musicTimer);
+                musicTimer = null;
+            }
+            updateMusicBtn();
+        }
+
+        function toggleMusic() {
+            musicUserWanted = !musicUserWanted;
+            musicMutedForWin = false;
+            if (musicUserWanted) {
+                startCasinoMusic();
+            } else {
+                stopCasinoMusic();
+            }
+        }
+
+        function updateMusicBtn() {
+            const icon = document.getElementById('musicIcon');
+            const text = document.getElementById('musicText');
+            const btn = document.getElementById('musicBtn');
+
+            if (musicUserWanted && !musicMutedForWin) {
+                icon.textContent = '🔊';
+                text.textContent = 'Muzyka: WŁ';
+                btn.classList.remove('opacity-60');
+            } else {
+                icon.textContent = '🔇';
+                text.textContent = musicMutedForWin ? 'Muzyka: PAUZA' : 'Muzyka: WYŁ';
+                btn.classList.add('opacity-60');
+            }
+        }
+
+        // Efekty dźwiękowe (SFX)
+        function playChipSound() {
+            const ctx = ensureAudioContext();
+            const now = ctx.currentTime;
+            [1850, 2450].forEach((freq, idx) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now + idx * 0.035);
+                gain.gain.setValueAtTime(0.07, now + idx * 0.035);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.035 + 0.08);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now + idx * 0.035);
+                osc.stop(now + idx * 0.035 + 0.09);
+            });
+        }
+
+        function playLeverSound() {
+            const ctx = ensureAudioContext();
+            const now = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(210, now);
+            osc.frequency.exponentialRampToValueAtTime(75, now + 0.25);
+            gain.gain.setValueAtTime(0.06, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.26);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.27);
+        }
+
+        function playTickSound() {
+            const ctx = ensureAudioContext();
+            const now = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(480 + Math.random() * 140, now);
+            gain.gain.setValueAtTime(0.03, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.035);
+        }
+
+        function playReelStop(index) {
+            const ctx = ensureAudioContext();
+            const now = ctx.currentTime;
+            const freqs = [261.63, 329.63, 392.00];
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freqs[index], now);
+            osc.frequency.exponentialRampToValueAtTime(freqs[index] * 0.65, now + 0.13);
+            gain.gain.setValueAtTime(0.13, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.15);
+        }
+
+        function playWinFanfare() {
+            const ctx = ensureAudioContext();
+            const now = ctx.currentTime;
+            const notes = [
+                { f: 523.25, t: 0.00, d: 0.14 },
+                { f: 659.25, t: 0.11, d: 0.14 },
+                { f: 783.99, t: 0.22, d: 0.14 },
+                { f: 1046.50, t: 0.33, d: 0.55 }
+            ];
+            notes.forEach(n => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(n.f, now + n.t);
+                gain.gain.setValueAtTime(0.15, now + n.t);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + n.t + n.d);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now + n.t);
+                osc.stop(now + n.t + n.d + 0.02);
+            });
+        }
+
+        // ==========================================
+        // 4. ŻETONY VIP Z ŻYCZENIAMI
+        // ==========================================
+        function selectChip(category, message) {
+            playChipSound();
+            const banner = document.getElementById('chipWishBanner');
+            banner.innerHTML = `<span class="text-yellow-400 font-bold mr-2">[${category.toUpperCase()}]</span> ${message}`;
+        }
+
+        // ==========================================
+        // 5. LOGIKA SLOTÓW (DOKŁADNIE 1/4 = 25% SZANS NA 3 BANANY)
+        // ==========================================
+        function generateSlotOutcome() {
+            // Dokładnie 1/4 (25%) prawdopodobieństwa na wylosowanie 3 bananów
+            const isBananaJackpot = Math.random() < 0.25;
+
+            if (isBananaJackpot) {
+                return ['🍌', '🍌', '🍌'];
+            }
+
+            // W pozostałych 75% przypadków gwarantujemy, że NIE wypadną 3 banany
+            let outcome;
+            do {
+                outcome = [
+                    SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+                    SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+                    SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]
+                ];
+            } while (outcome[0] === '🍌' && outcome[1] === '🍌' && outcome[2] === '🍌');
+
+            return outcome;
+        }
+
+        function spinSingleReel(reelIndex, finalSymbol, durationMs) {
+            return new Promise(resolve => {
+                const boxEl = document.getElementById(`reelBox${reelIndex}`);
+                const symEl = document.getElementById(`reelSym${reelIndex}`);
+                boxEl.classList.add('reel-spinning');
+
+                const interval = setInterval(() => {
+                    const randomSym = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+                    symEl.textContent = randomSym;
+                    playTickSound();
+                }, 75);
+
+                setTimeout(() => {
+                    clearInterval(interval);
+                    boxEl.classList.remove('reel-spinning');
+                    symEl.textContent = finalSymbol;
+                    playReelStop(reelIndex);
+                    resolve();
+                }, durationMs);
+            });
+        }
+
+        async function startSpin() {
+            if (isSpinning) return;
+            isSpinning = true;
+
+            // Wznów muzykę jeśli gra toczy się dalej po wcześniejszym zamknięciu modala
+            if (musicUserWanted && !isMusicRunning && !musicMutedForWin) {
+                startCasinoMusic();
+            }
+
+            const spinBtn = document.getElementById('spinButton');
+            const leverArm = document.getElementById('leverArm');
+            const statusEl = document.getElementById('slotStatus');
+            const spinCounterEl = document.getElementById('spinCounter');
+
+            spinBtn.disabled = true;
+            spinsCount++;
+            spinCounterEl.textContent = spinsCount;
+            statusEl.textContent = 'Losowanie... 🍀';
+
+            if (leverArm) {
+                leverArm.classList.add('lever-pulled');
+                setTimeout(() => leverArm.classList.remove('lever-pulled'), 320);
+            }
+
+            playLeverSound();
+
+            const result = generateSlotOutcome();
+
+            // Zatrzymujemy bębny kaskadowo (1.1s, 1.6s, 2.1s)
+            await Promise.all([
+                spinSingleReel(0, result[0], 1100),
+                spinSingleReel(1, result[1], 1600),
+                spinSingleReel(2, result[2], 2100)
+            ]);
+
+            // Sprawdzenie wyniku
+            if (result[0] === '🍌' && result[1] === '🍌' && result[2] === '🍌') {
+                // NATYCHMIASTOWE ZATRZYMANIE MUZYKI KASYNA PRZY WYGRANEJ!
+                musicMutedForWin = true;
+                stopCasinoMusic();
+
+                winsCount++;
+                document.getElementById('winCounter').textContent = winsCount;
+                statusEl.textContent = 'JACKPOT! 🍌🍌🍌';
+
+                playWinFanfare();
+                triggerConfetti();
+
+                setTimeout(() => {
+                    openJackpotModal();
+                }, 650);
+            } else if (result.filter(s => s === '🍌').length === 2) {
+                statusEl.textContent = 'Blisko! 2 banany!';
+            } else {
+                statusEl.textContent = 'Zakręć jeszcze raz!';
+            }
+
+            isSpinning = false;
+            spinBtn.disabled = false;
+        }
+
+        // ==========================================
+        // 6. MODAL NIESPODZIANKI I KONFETTI
+        // ==========================================
+        function openJackpotModal() {
+            const modal = document.getElementById('jackpotModal');
+            const videoEl = document.getElementById('rewardVideo');
+
+            // Dodatkowe upewnienie się, że muzyka w tle nie gra podczas odtwarzania niespodzianki
+            musicMutedForWin = true;
+            stopCasinoMusic();
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            videoEl.currentTime = 0;
+            videoEl.muted = false;
+            videoEl.play().catch(() => {});
+        }
+
+        function closeJackpotModal() {
+            const modal = document.getElementById('jackpotModal');
+            const videoEl = document.getElementById('rewardVideo');
+
+            videoEl.pause();
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+
+            // Wznów muzykę w tle po zamknięciu okienka z niespodzianką
+            musicMutedForWin = false;
+            if (musicUserWanted) {
+                startCasinoMusic();
+            } else {
+                updateMusicBtn();
+            }
+        }
+
+        // Lekkie, niezawodne konfetti na canvasie 2D
+        function triggerConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const colors = ['#facc15', '#ef4444', '#10b981', '#ffffff', '#f59e0b'];
+            const pieces = Array.from({ length: 120 }, () => ({
+                x: canvas.width / 2 + (Math.random() - 0.5) * 200,
+                y: canvas.height * 0.45,
+                vx: (Math.random() - 0.5) * 16,
+                vy: -Math.random() * 14 - 4,
+                size: 6 + Math.random() * 7,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                rot: Math.random() * 360,
+                vRot: (Math.random() - 0.5) * 12
+            }));
+
+            let frame = 0;
+            function animateConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.42; // grawitacja
+                    p.rot += p.vRot;
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rot * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+                    ctx.restore();
+                });
+
+                frame++;
+                if (frame < 130) {
+                    requestAnimationFrame(animateConfetti);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            animateConfetti();
+        }
+    </script>
+</body>
+</html>
